@@ -27,7 +27,9 @@ export function Reveal({
   const { ref, inView } = useIntersectionReveal<HTMLDivElement>();
   const reduce = usePrefersReducedMotion();
 
-  const MotionTag = m[as];
+  // 동적 태그. as 유니온이 ref 타입을 교집합으로 만들어 TS가 막으므로 div 시그니처로 캐스팅
+  // (런타임은 as가 가리키는 실제 태그로 렌더됨).
+  const MotionTag = m[as] as typeof m.div;
   const variants = reduce
     ? noMotion
     : stagger
@@ -58,7 +60,9 @@ export function RevealItem({
   as?: "div" | "li";
 }) {
   const reduce = usePrefersReducedMotion();
-  const MotionTag = m[as];
+  // 동적 태그. as 유니온이 ref 타입을 교집합으로 만들어 TS가 막으므로 div 시그니처로 캐스팅
+  // (런타임은 as가 가리키는 실제 태그로 렌더됨).
+  const MotionTag = m[as] as typeof m.div;
   return (
     <MotionTag className={className} variants={reduce ? noMotion : fadeUp}>
       {children}
