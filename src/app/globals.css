@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   디자인 토큰 (다크 + 네온)
+   Tailwind v4: @theme 안의 값이 bg-surface / text-neon 등으로 노출됨
+---------------------------------------------------------------- */
+@theme {
+  --color-ink: #07070a; /* 페이지 최하단 배경 */
+  --color-surface: #0e0f13; /* 카드/섹션 표면 */
+  --color-surface-2: #16181f;
+  --color-line: #23262f; /* 보더 */
+  --color-mute: #8a8f9c; /* 보조 텍스트 */
+  --color-fg: #e8eaf0; /* 본문 텍스트 */
+
+  --color-neon: #c8ff00; /* 라임 — 1차 강조 */
+  --color-neon-dim: #98c000;
+  --color-cyan: #22d3ee; /* 시안 — 2차 강조 */
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, "Pretendard", sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* CLS/접근성 기본값 */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* sticky 헤더 높이만큼 앵커 스크롤 오프셋 보정 → 제목이 헤더에 안 가림 */
+:where(section[id]) {
+  scroll-margin-top: 76px;
+}
+
+/* 네온 글로우 유틸 */
+@utility glow-neon {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-neon) 40%, transparent),
+    0 0 24px -4px color-mix(in srgb, var(--color-neon) 55%, transparent);
+}
+
+/* 스크롤 다운 인디케이터 (CSS-only, JS 0) */
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(7px); opacity: 1; }
+}
+.animate-nudge { animation: nudge 1.8s var(--ease-out-expo) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-nudge { animation: none; }
+}
+
+/* 이미지 로딩 스켈레톤 */
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
